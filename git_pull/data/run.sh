@@ -56,8 +56,11 @@ function git-clone {
     bashio::log.info "[Info] Start git clone"
     git clone "$REPOSITORY" /config || bashio::exit.nok "[Error] Git clone failed"
 
-    # try to copy non yml files back
-    cp "${BACKUP_LOCATION}" "!(*.yaml)" /config 2>/dev/null
+    # try to copy non-yaml files back (extglob pattern matches all except *.yaml)
+    # nullglob ensures pattern expands to nothing if no matches, avoiding confusing errors
+    shopt -s extglob nullglob
+    cp "${BACKUP_LOCATION}"/!(*.yaml) /config 2>/dev/null || true
+    shopt -u extglob nullglob
 
     # try to copy secrets file back
     cp "${BACKUP_LOCATION}/secrets.yaml" /config 2>/dev/null
