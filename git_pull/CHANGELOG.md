@@ -1,5 +1,9 @@
 # Changelog
 
+## 8.0.2
+
+- Fix HTTPS credential setup failing with "missing host field" error (#4194)
+
 ## 8.0.1
 - Fix bashio warn(ing) logger usage breaking deployment keys
 
